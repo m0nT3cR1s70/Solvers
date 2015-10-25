@@ -5,7 +5,7 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 	int n = 5;
-	Vector a(n),b(n),c(n);
+	Vector a(n),b(n),c(n),r(n);
 	a[0]=1.243;
 	b = a;
 	b[1] = 32.3;

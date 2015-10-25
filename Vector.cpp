@@ -1,18 +1,46 @@
 #include "Vector.hpp"
 
+// Asigna memoria al Vector
+void Vector :: reserveMemory()
+{
+	// Comprobamos que sea un largo valido
+	if (n < 1 )
+	{
+		std::cout << "ERROR: LARGO: " << n << " NO VALIDO: Vector reserveMemory" << std::endl;
+		exit(0);
+	}
+	// Asignamos memoria a data
+	data = new double[n];
+	// Verificamos que la memoria fue asignada
+	if (data == nullptr)
+	{
+		std::cout << "ERROR: MEMORIA INSUFICIENTE" << std::endl;
+	}
+}
+// Liberamos la memoria asignada
+void Vector :: freeMemory()
+{
+	delete [] data;
+}
 // Obtiene la norma de un vector
 double Vector :: norm()
 {
-	double euclidiana;
-	// Recorremos el vector y sumamos sus cuadrados
+    double euclidiana = 0.0;
+    for (int i = 0; i < n; ++i)
+    {
+        euclidiana += data[i]*data[i];
+    }
+    return sqrt(euclidiana);
+}
+// Funcion para llenar un vector de ceros
+void Vector :: zeros()
+{
 	for (int i = 0; i < n; ++i)
 	{
-		euclidiana += v[i]*v[i];
+		data[i] = 0;
 	}
-	// Enviamos la raiz cuadrada
-	return sqrt(euclidiana);
 }
-// Almacenamos el contenido de un vector en un archivo
+// Almacena el contenido de un vector en un archivo
 void Vector :: saveData(std::string name)
 {
 	// Almacenar en un archivo
@@ -26,100 +54,109 @@ void Vector :: saveData(std::string name)
 		file.fill(' ');
 		file.setf( std::ios::fixed, std:: ios::floatfield );
 		file.precision(12);
-		file << v[i] << std::endl;
+		file << data[i] << std::endl;
 	}
 }
-// Suma de dos vectores
-Vector Vector :: operator +(Vector &o)
-{
-	// Temporal para almacenar la suma
-	Vector tmp(v.size());
-	// Verificamos que la suma sea posible
-	if (o.size() != v.size())
-	{
-		std::cout<<"ERROR: SUMA DE VECTORES NO VALIDA: LARGOS DISTINTOS" << std::endl;
-		exit(-1);
-	}
-	// Suma de dos vectores
-	for (int i = 0; i < v.size(); ++i)
-	{
-		tmp[i] = v[i] + o[i];
-	}
-	// Devuelve el elmento
-	return tmp; //(INEFICIENTE COPIA)
-}
-// Resta de dos vectores
-Vector Vector :: operator -(Vector &o)
-{
-	// Temporal para almacenar la suma
-	Vector tmp(v.size());
-	// Verificamos que la suma sea posible
-	if (o.size() != v.size())
-	{
-		std::cout<<"ERROR: SUBSTRACCION DE VECTORES NO VALIDA: LARGOS DISTINTOS" << std::endl;
-		exit(-1);
-	}
-	// Suma de dos vectores
-	for (int i = 0; i < v.size(); ++i)
-	{
-		tmp[i] = v[i] - o[i];
-	}
-	// Devuelve el elmento
-	return tmp; // (INEFICIENTE COPIA)
-}
-// Producto Interno
-double Vector :: operator *(Vector &o)
-{
-	// Temporal para almacenar la suma
-	double tmp;
-	// Verificamos que la suma sea posible
-	if (o.size() != v.size())
-	{
-		std::cout<<"ERROR: SUMA DE VECTORES NO VALIDA: LARGOS DISTINTOS" << std::endl;
-		exit(-1);
-	}
-	// Suma de dos vectores
-	for (int i = 0; i < v.size(); ++i)
-	{
-		tmp += v[i]*o[i];
-	}
-	// Devuelve el elmento
-	return tmp; //(INEFICIENTE COPIA)
-}
-// Producto de un escalar por un vector
-Vector operator *(double escalar, Vector const &o)
+// Sobrecarga de operadores
+// Suma vectorial
+Vector Vector :: operator +(Vector const &v)
 {
 	// Largo del vector
-	int n = o.n;
-	// Vector temporal para almacenar el vector
-	Vector tmp(n);
-	// Realizamos la multiplicacion
+	int nt = v.n;
+	// Verificamos que ambos vectores sean del mismo orden
+	if (nt != n)
+	{
+		std::cout << "ERROR: vectores de distinto largo" << std::endl;
+		exit(0);
+	}
+	// Vector temporal para almacenar la solucion
+	Vector tmp(nt);
+	// Llevamos acabo la suma
+	for (int i = 0; i < nt; ++i)
+	{
+		tmp[i] = data[i] + v[i];
+	}
+	// Devolvemos el vector con la solucion 
+	return tmp; // INEFICIENTE(HACE UNA COPIA)
+}
+// Sustraccion vectorial
+Vector Vector :: operator -(Vector const &v)
+{
+	// Largo del vector
+	int nt = v.n;
+	// Verificamos que ambos vectores sean del mismo largo
+	if (nt != n)
+	{
+		std::cout << "ERROR: vectores de distinto largo" << std::endl;
+		exit(0);
+	}
+	// Vector temporal para almacenar la solucion
+	Vector tmp(nt);
+	// Llevamos acabo la suma
+	for (int i = 0; i < nt; ++i)
+	{
+		tmp[i] = data[i] - v[i];
+	}
+	// Devolvemos el vector con la solucion 
+	return tmp; // INEFICIENTE(HACE UNA COPIA)
+}
+// Producto interno
+double Vector :: operator *(Vector const &v)
+{
+	// Largo del vector
+	int nt = v.n;
+	double suma = 0.0;
+	// Verificamos que ambos vectores sean del mismo largo
+	if (nt != n)
+	{
+		std::cout << "ERROR: vectores de distinto largo" << std::endl;
+		exit(0);
+	}
+	// Realizamos el producto interno
+	for (int i = 0; i < nt; ++i)
+	{
+		suma += data[i]*v[i];
+	}
+	// Devolvemos el vector
+	return suma;
+}
+// Producto de un escalar por un vector
+Vector operator *(double escalar, Vector const &v)
+{
+	// Largo del vector
+	int nt = v.n;
+	// Vector temporal para almacenar los datos
+	Vector a(nt);
+	//Realizamos la multplicacion
+	for (int i = 0; i < nt; ++i)
+	{
+		a[i] = escalar * v[i];
+	}
+	return a;
+}
+// Sobrecargamos el operador =
+// Inicializa un vector 
+Vector Vector :: operator =(double escalar)
+{
 	for (int i = 0; i < n; ++i)
 	{
-		tmp[i] = escalar * o[i];
+		data[i] = escalar;
 	}
-	// Devolvemos el vector multiplicado
-	return tmp;
+	// retornamos el vector
+	return *this;
 }
-// Inicializamos un vector con un escalar
-void Vector :: operator =(double escalar)
+//Copia un vector en otro
+void Vector :: operator =(Vector const &v)
 {
-	// Inicializamos con un valor
-	for (int i = 0; i < v.size(); ++i)
+	int nt = v.n;
+	// Revisamos que los indices sean los mismos
+	if(nt != n) 
 	{
-		v[i] = escalar;
+		std::cout<<"ERROR: vectores de distinto largo: =" << std::endl;
+		exit(0);
 	}
-}
-// Asignamos el contenido de un vector a otro vector
-void Vector :: operator =(Vector const &o)
-{
-	if (v.size() != o.n)
+	for (int i = 0; i < n; ++i)
 	{
-		std::cout<<"ERROR: COPIA DE VECTORES NO VALIDA: LARGOS DISTINTOS" << std::endl;
+		data[i] = v[i];
 	}
-	// Copiamos el contenido de o a v
-	for (int i = 0; i < v.size(); ++i)
-	{
-		v[i] = o[i];
-	}
-}
+} 
