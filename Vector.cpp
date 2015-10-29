@@ -57,6 +57,14 @@ void Vector :: saveData(std::string name)
 		file << data[i] << std::endl;
 	}
 }
+// Imprime en pantalla el contenido de un vector
+void Vector :: print()
+{
+	for (int i = 0; i < n; ++i)
+	{
+		std::cout<<data[i]<<std::endl;
+	}
+}
 // Sobrecarga de operadores
 // Suma vectorial
 Vector Vector :: operator +(Vector const &v)

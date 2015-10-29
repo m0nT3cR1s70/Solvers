@@ -33,6 +33,8 @@ class Vector
 		void zeros();
 		// Almacena en un archivo el contenido de un vector
 		void saveData(std::string name);
+		// Imprime en pantalla el contenido de un vector
+		void print();
 		// Sobrecarga de operadores necesarias
 		// Funcion get y funcion set del vector
 		double operator  [](int i) const {return data[i];}; 

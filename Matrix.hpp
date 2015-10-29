@@ -5,6 +5,7 @@
 // Librerias Necesarias
 #include <iostream>
 #include <string>
+#include "Vector.hpp"
 //---------------------------------
 
 class Matrix
@@ -22,22 +23,22 @@ class Matrix
 		// Funciones para devolver parametros de la matrix
 		inline int gRow(){return row;};
 		inline int gCol(){return col;};
-		inline int gband(){return band;};
+		inline int gBand(){return band;};
 		// Indica el nombre de la matrix
 		inline void gName(){std::cout<<name<<std::endl;};
 		// -----------------------------------------------------------
 		// Funciones puramente virtuales
 		virtual void insert(int i, int j, double val)=0;
 		// Funcion para obtener un elemento
-		virtual double operator ()(int i, int j = 0;
+		virtual double operator ()(int i, int j) = 0;
 		// Funcion para la multiplicacion matrix vector
-		virtual Matrix operator *(Vector const &v) = 0;
+		virtual Vector operator *(Vector const &v) = 0;
 		// Iteracion de Jacobi
 		virtual void iterJacobi(int i, Vector &x) = 0;
 		// Iteracion de Gauss-Seidel
 		virtual void iterGauss(int i, Vector &x, Vector const &b) = 0;
 		// Sobrecargamos el operador =
-		virtual void operator =(Matrix const &Mtx)
+		//virtual void operator =(Matrix const &Mtx) = 0;
 		// -----------------------------------------------------------
 };
 
