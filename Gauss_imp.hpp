@@ -3,9 +3,10 @@ void GaussSeidel :: solve(T &A, Vector &x, Vector const &b)
 {
 	// Variables necesarias
 	int n = x.size();
+	int k = 0;
 	// Comenzamos con la medicion del tiempo
 	timer.tic();
-	for (int k = 0; k < iMax(); ++k)
+	for (k = 0; k < iMax(); ++k)
 	{
 		for (int i = 0; i < n; ++i)
 		{
@@ -16,4 +17,6 @@ void GaussSeidel :: solve(T &A, Vector &x, Vector const &b)
 	timer.toc();
 	// Almacenamos el tiempo
 	ctime(timer.etime());
+	// Almacenamos el numero de iteraciones
+	ssiter(k);
 }

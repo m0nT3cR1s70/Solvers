@@ -36,7 +36,7 @@ class Matrix
 		// Iteracion de Jacobi
 		virtual void iterJacobi(int i, Vector &x) = 0;
 		// Iteracion de Gauss-Seidel
-		virtual void iterGauss(int i, Vector &x, Vector const &b) = 0;
+		virtual void iterGaussSeidel(int i, Vector &x, Vector const &b) = 0;
 		// Sobrecargamos el operador =
 		//virtual void operator =(Matrix const &Mtx) = 0;
 		// -----------------------------------------------------------

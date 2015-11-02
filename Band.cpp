@@ -222,9 +222,21 @@ void Band :: iterJacobi(int i, Vector &x)
 	x[i] = x[i]/busca(i,i);
 }
 // Iteracion de Gauss-Seidel
-void Band :: iterGauss(int i, Vector &x, Vector const &b)
+void Band :: iterGaussSeidel(int i, Vector &x, Vector const &b)
 {
-	
+	// Variables utiles
+	int j = 0;
+	double suma = 0.0;
+	// Comenzamos con la solucion
+	for (int l = 0; l < revDiag(i); ++l)
+	{
+		j=regresa(i,l);
+		if (i != j)
+		{
+			suma+=busca(i,j)*x[j];
+		}
+	}
+	x[i] = (b[i]-suma)/busca(i,i);
 }
 // Liberamos utilizada memoria
 void Band :: freeMemory() 

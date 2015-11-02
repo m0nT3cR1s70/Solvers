@@ -28,6 +28,10 @@ class Sparse : public Matrix
 		double operator()(int i, int j);
 		// Multiplicaccion Matriz-Vector
 		Vector operator*(Vector const &v);
+		// Iteracion de Jacobi
+		void iterJacobi(int i, Vector &x);
+		// Iteracion de Gauss-Seidel
+		void iterGaussSeidel(int i, Vector &x, Vector const &b);
 		// Destructor de la clase
 		~Sparse(){freeMemory();};
 };

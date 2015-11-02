@@ -37,6 +37,18 @@ void Sparse :: insert(int i, int j, double val)
 {
 
 }
+// Inicializamos los arreglos con ceros
+void Sparse :: zeros()
+{
+	for (int i = 0; i < gRow(); ++i)
+	{
+		for (int j = 0; j < gBand(); ++j)
+		{
+			data[i][j]=0.0;
+			ind[i][j]=0;
+		}
+	}
+}
 // Devuelve un valor de la matriz
 double Sparse :: operator ()(int i, int j)
 {
@@ -52,6 +64,16 @@ double Sparse :: operator ()(int i, int j)
 	}
 	// Devolvemos el valor
 	return val;
+}
+// Iteracion de Jacobi
+void Sparse :: iterJacobi(int i, Vector &x)
+{
+	std::cout<<"TEMPORAL"<<std::endl;
+}
+// Iteracion de Gauss-Seidel
+void Sparse :: iterGaussSeidel(int i, Vector &x, Vector const &b)
+{
+	std::cout<<"TEMPORAL"<<std::endl;
 }
 // Operacion Matriz - Vector
 Vector Sparse :: operator *(Vector const &v)
@@ -74,18 +96,6 @@ Vector Sparse :: operator *(Vector const &v)
 	}
 	// Devolvemos el resultado
 	return tmp;
-}
-// Inicializamos los arreglos con ceros
-void Sparse :: zeros()
-{
-	for (int i = 0; i < gRow(); ++i)
-	{
-		for (int j = 0; j < gBand(); ++j)
-		{
-			data[i][j]=0.0;
-			ind[i][j]=0;
-		}
-	}
 }
 // Liberamos la memoria solicitada
 void Sparse :: freeMemory()

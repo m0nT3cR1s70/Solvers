@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Vector.hpp"
 #include "Band.hpp"
-//#include "Sparse.hpp"
+#include "Sparse.hpp"
 #include "Solvers.hpp"
 #include "CG.hpp"
 #include "Jacobi.hpp"
@@ -11,17 +11,22 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	int nx=1001;
+	int nx=9001;
   	int ny=nx;
   	double dx = 1./nx;
   	double dy = 1./ny;
   	int n = (nx - 1)*(ny - 1); // dimension del sistema a resolver
-  	Vector x(n),b(n),r(n);         //vectores: solucion, lado derecho, residual 
-  	CG cg; 
-  	Jacobi jac; 
+  	Vector x(n),b(n),r(n);         //vectores: solucion, lado derecho, residual  
+  	Jacobi jac;
+  	GaussSeidel gs; 
+  	CG cg;
+
+  	Timer timer;                   //mide tiempo de ejecucion
+
   	cout<< endl << "Tamanio de problema " << n << "x" <<n<<endl<<endl;
   	int l = 0;
     Band Acoo(n,5,"banda");                 //matriz temporal en formato de coordenadas
+    timer.tic(); 
     for(int j=1;j<ny;++j)
     {
       for(int i=1;i<nx;++i)
@@ -39,6 +44,8 @@ int main(int argc, char const *argv[])
           ++l;
       }
     }
+    timer.toc();                 //termina de medir tiempo
+    std::cout << "Tiempo de llenado de matriz   CDS: " << timer.etime() << " ms" << std::endl;
     
     /*for (int i = 0; i < n; ++i)
     {
@@ -60,7 +67,16 @@ int main(int argc, char const *argv[])
  	x.saveData("jac.txt");
   	r = b-Acoo*x;                     //calcula el vector residual con la solucion x. 
                                   //Operacion vector = vector - Matroz*vector
-  cout << "#Error ||b-A*x||: " << r.norm() << endl;  //imprime la norma del vector residual
+  	cout << "#Error ||b-A*x||: " << r.norm() << endl;  //imprime la norma del vector residual
+
+  	/*    Gauss Seidel     */
+  	cout<< endl << endl;
+  	x=0;
+  	gs.solve(Acoo,x,b);
+  	gs.report();
+  	x.saveData("gauss.txt");
+  	r = b-Acoo*x;
+  	cout << "#Error ||b-A*x||: " << r.norm() << endl;
   
 	//    Gradiente Conjugado   
   	cout<< endl << endl;

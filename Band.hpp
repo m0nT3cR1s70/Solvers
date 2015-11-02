@@ -41,7 +41,7 @@ class Band : public Matrix
 		// Realiza una iteracion de Jacobi para este formato
 		void iterJacobi(int i, Vector &x);
 		// Realiza una iteracion de Gauss-Seidel para este formato
-		void iterGauss(int i, Vector &x, Vector const &b);
+		void iterGaussSeidel(int i, Vector &x, Vector const &b);
 		// Almacena una matriz en otra con este formato
 		//void operator =(Matrix const &Mtx);
 		// Destructor de la clase
