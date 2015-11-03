@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Vector.hpp"
 #include "Band.hpp"
+#include "Dense.hpp"
 #include "Sparse.hpp"
 #include "Solvers.hpp"
 #include "CG.hpp"
@@ -11,7 +12,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	int nx=1001;
+	int nx=501;
   	int ny=nx;
   	double dx = 1./nx;
   	double dy = 1./ny;
@@ -26,7 +27,7 @@ int main(int argc, char const *argv[])
 
   	cout<< endl << "Tamanio de problema " << n << "x" <<n<<endl<<endl;
   	int l = 0;
-    Sparse Acoo(n,5,"dispersa");                 //matriz temporal en formato de coordenadas
+    Dense Acoo(n,5,"dispersa");                 //matriz temporal en formato de coordenadas
     timer.tic(); 
     for(int j=1;j<ny;++j)
     {
