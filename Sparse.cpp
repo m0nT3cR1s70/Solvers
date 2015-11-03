@@ -35,7 +35,52 @@ void Sparse :: reserveMemory()
 // Insertamos en memoria un elemento 
 void Sparse :: insert(int i, int j, double val)
 {
-
+	// Variables Necesarias
+	int k = 0;
+	// Insertamos en la posicion solicitada
+	if ( val == 0.0)
+	{
+		k = 0;
+		// Buscamos
+		while(k < gBand()) 
+		{
+			if (ind[i][k] == -1) break; 
+			// En otro caso
+			if (ind[i][k] == j)
+			{
+				// Reacomodando
+				for (int l = k+1; l < gBand(); ++l)
+				{
+				 	data[i][l-1] = data[i][l];
+				 	ind[i][l-1] = ind[i][l];
+				} 
+				data[i][gBand()-1]=0.0;
+				ind[i][gBand()-1]=-1;
+				return;	
+			} 
+			k++;
+		}
+		return;	
+	}
+	else
+	{
+		k = 0;
+		// Buscamos un espacio disponible en la banda
+		while(ind[i][k] != -1 && k < gBand())	 
+		{
+		    if (ind[i][k] == j)
+		    {
+		    	// Asigamos un valor
+		    	data[i][k] = val;
+		    	// Terminamos
+		    	return;
+		    }
+		    k++;
+		}
+		// Insertamos el primer elemento no-cero
+		data[i][k] = val;
+		ind[i][k] = j;
+	}
 }
 // Inicializamos los arreglos con ceros
 void Sparse :: zeros()
@@ -45,7 +90,7 @@ void Sparse :: zeros()
 		for (int j = 0; j < gBand(); ++j)
 		{
 			data[i][j]=0.0;
-			ind[i][j]=0;
+			ind[i][j]= -1;
 		}
 	}
 }
@@ -96,6 +141,29 @@ Vector Sparse :: operator *(Vector const &v)
 	}
 	// Devolvemos el resultado
 	return tmp;
+}
+// Imprime en su esquema de almacenamiento
+void Sparse :: print()
+{
+	std::cout<<" ELEMENTOS NO CERO " << std::endl;
+	for (int i = 0; i < gRow(); ++i)
+	{
+		for (int j = 0; j < gBand(); ++j)
+		{
+			std::cout<<data[i][j]<<"\t";
+		}
+		std::cout<<std::endl;
+	}
+	std::cout<<" INDICES DE ELEMENTOS NO CERO"<<std::endl;
+	for (int i = 0; i < gRow(); ++i)
+	{
+		for (int j = 0; j < gBand(); ++j)
+		{
+			std::cout<<ind[i][j]<<"\t";
+		}
+		std::cout<<std::endl;
+	}
+
 }
 // Liberamos la memoria solicitada
 void Sparse :: freeMemory()

@@ -28,6 +28,8 @@ class Sparse : public Matrix
 		double operator()(int i, int j);
 		// Multiplicaccion Matriz-Vector
 		Vector operator*(Vector const &v);
+		// Imprime en su esquema de almacenamiento
+		void print();
 		// Iteracion de Jacobi
 		void iterJacobi(int i, Vector &x);
 		// Iteracion de Gauss-Seidel
