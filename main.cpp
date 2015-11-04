@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	int nx=501;
+	int nx=101;
   	int ny=nx;
   	double dx = 1./nx;
   	double dy = 1./ny;
@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
 
   	cout<< endl << "Tamanio de problema " << n << "x" <<n<<endl<<endl;
   	int l = 0;
-    Dense Acoo(n,5,"dispersa");                 //matriz temporal en formato de coordenadas
+    Sparse Acoo(n,5,"dispersa");                 //matriz temporal en formato de coordenadas
     timer.tic(); 
     for(int j=1;j<ny;++j)
     {
@@ -62,8 +62,8 @@ int main(int argc, char const *argv[])
 
 
 	/*    JACOBI     */
-	/*
-  	cout<< endl << endl;
+	
+  	/*cout<< endl << endl;
   	x=0;                           //aproximacion inicial de la solucion
   	jac.solve(Acoo,x,b);              //resuelve el sistema Ax=b, guarda el resultado en x
   	jac.report();                  //reporta numero de iteraciones y tiempo de ejecucion

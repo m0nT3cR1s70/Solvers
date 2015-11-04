@@ -101,12 +101,28 @@ Vector Dense :: operator *(Vector const &v)
 // Iteracion de Jacobi
 void Dense :: iterJacobi(int i, Vector &x)
 {
-
+	for (int l = 0; l < gRow(); ++l)
+	{
+		if (i != l)
+		{
+			x[i] = x[i] - Mtx[i][l]*x[l];
+		}
+	}
+	x[i] = x[i]/Mtx[i][i];
 }
 // Iteracion de Gauss-Seidel
 void Dense :: iterGaussSeidel(int i, Vector &x, Vector const &b)
 {
-
+	// Variables Necesarias 
+	double sum = 0.0;
+	for (int j = 0; j < gRow(); ++j)
+	{
+		if (i != j)
+		{
+			sum += Mtx[i][j]*x[j];
+		}
+	}
+	x[i] = (b[i]-sum)/Mtx[i][i];
 }
 // Libera memoria solicitada 
 void Dense :: freeMemory()
