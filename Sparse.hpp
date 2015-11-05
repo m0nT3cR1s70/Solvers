@@ -26,10 +26,16 @@ class Sparse : public Matrix
 		void zeros();
 		// Obtiene un elemento de la matriz
 		double operator()(int i, int j);
+		// Obtiene un elemento de la matriz
+		double busca(int i, int j);
 		// Multiplicaccion Matriz-Vector
 		Vector operator*(Vector const &v);
 		// Imprime en su esquema de almacenamiento
 		void print();
+		// Devuelve la diagonal
+		int revDiag(int i);
+		// Prueba
+		int regresa(int i, int l);
 		// Iteracion de Jacobi
 		void iterJacobi(int i, Vector &x);
 		// Iteracion de Gauss-Seidel

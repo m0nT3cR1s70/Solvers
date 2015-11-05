@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	int nx=101;
+	int nx=1001;
   	int ny=nx;
   	double dx = 1./nx;
   	double dy = 1./ny;
@@ -63,7 +63,7 @@ int main(int argc, char const *argv[])
 
 	/*    JACOBI     */
 	
-  	/*cout<< endl << endl;
+  	cout<< endl << endl;
   	x=0;                           //aproximacion inicial de la solucion
   	jac.solve(Acoo,x,b);              //resuelve el sistema Ax=b, guarda el resultado en x
   	jac.report();                  //reporta numero de iteraciones y tiempo de ejecucion
@@ -71,9 +71,9 @@ int main(int argc, char const *argv[])
   	r = b-Acoo*x;                     //calcula el vector residual con la solucion x. 
                                   //Operacion vector = vector - Matroz*vector
   	cout << "#Error ||b-A*x||: " << r.norm() << endl;  //imprime la norma del vector residual
-	*/
+	
   	/*    Gauss Seidel     */
-  	/*
+  	
   	cout<< endl << endl;
   	x=0;
   	gs.solve(Acoo,x,b);
@@ -81,7 +81,7 @@ int main(int argc, char const *argv[])
   	x.saveData("gauss.txt");
   	r = b-Acoo*x;
   	cout << "#Error ||b-A*x||: " << r.norm() << endl;
-  	*/
+  	
 	//    Gradiente Conjugado   
   	cout<< endl << endl;
   	x=0;

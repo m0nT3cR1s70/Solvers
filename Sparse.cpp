@@ -110,15 +110,72 @@ double Sparse :: operator ()(int i, int j)
 	// Devolvemos el valor
 	return val;
 }
+// Devuelve un valor de la matriz
+double Sparse :: busca(int i, int j)
+{
+	// Variables necesarias
+	double val = 0.0;
+	for (int l = 0; l < gBand(); ++l)
+	{
+		if (ind[i][l] == j)
+		{
+			val = data[i][l];
+			break;
+		}
+	}
+	// Devolvemos el valor
+	return val;	
+}
+int Sparse :: revDiag(int i)
+{
+	// Variables necesarias
+	int k = 0;
+	if (data[i] == nullptr) return k;
+	// Devuelve el largo de la banda
+	while(k < gBand()) {
+	    if (ind[i][k] == -1) break;
+	    k++;
+	}
+	return k;
+}
+// Prueba
+int Sparse :: regresa(int i, int j)
+{
+	return ind[i][j];
+}
 // Iteracion de Jacobi
 void Sparse :: iterJacobi(int i, Vector &x)
 {
-	std::cout<<"TEMPORAL"<<std::endl;
+	// Variables utiles
+	int j = 0;
+	//double suma = 0.0;
+	// Comenzamos con la solucion
+	for (int l = 0; l < revDiag(i); ++l)
+	{
+		j=regresa(i,l);
+		if (i != j)
+		{
+			x[i]=x[i]-busca(i,j)*x[j];
+		}
+	}
+	x[i] = x[i]/busca(i,i);
 }
 // Iteracion de Gauss-Seidel
 void Sparse :: iterGaussSeidel(int i, Vector &x, Vector const &b)
 {
-	std::cout<<"TEMPORAL"<<std::endl;
+	// Variables utiles
+	int j = 0;
+	double suma = 0.0;
+	// Comenzamos con la solucion
+	for (int l = 0; l < revDiag(i); ++l)
+	{
+		j=regresa(i,l);
+		if (i != j)
+		{
+			suma+=busca(i,j)*x[j];
+		}
+	}
+	x[i] = (b[i]-suma)/busca(i,i);
 }
 // Operacion Matriz - Vector
 Vector Sparse :: operator *(Vector const &v)
