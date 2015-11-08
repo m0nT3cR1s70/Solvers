@@ -31,6 +31,8 @@ void LU<T> :: factorization(T &A)
 	int j = 0;
 	double m;
 	double k;
+	// Medimos el tiempo
+	timer.tic();
 	// Comenzamos con la factorizacion
 	for (int i = 0; i < lu.gRow(); ++i)
 	{
@@ -50,11 +52,15 @@ void LU<T> :: factorization(T &A)
 			}
 		}
 	}
+	// Finalizamos con el tiempo de ejecuccion
+	timer.toc();
+	// Almacenamos el tiempo
+	ctime(timer.etime());
 }
 // Obtiene la solucion de un sistema lineal
 template <class T>
 void LU<T> :: solve(Vector &x, Vector &b)
 {
-	
+
 }
 #endif // LU_HPP

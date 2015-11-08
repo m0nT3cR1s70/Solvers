@@ -8,6 +8,7 @@
 #include "Jacobi.hpp"
 #include "GaussSeidel.hpp"
 #include "LU.hpp"
+#include "Cholesky.hpp"
 #include "BICGSTAB.hpp"
 using namespace std;
 
@@ -23,13 +24,14 @@ int main(int argc, char const *argv[])
   	GaussSeidel gs; 
   	CG cg;
   	BICGSTAB bstb;
-  	LU<Band> lu;
+  	LU<Sparse> lu;
+  	Cholesky<Sparse> chol;
 
   	Timer timer;                   //mide tiempo de ejecucion
 
   	//cout<< endl << "Tamanio de problema " << n << "x" <<n<<endl<<endl;
   	int l = 0;
-    Band Acoo(n,7,"dispersa");                 //matriz temporal en formato de coordenadas
+    Sparse Acoo(n,7,"dispersa");                 //matriz temporal en formato de coordenadas
     timer.tic(); 
     for(int j=1;j<ny;++j)
     {
@@ -61,12 +63,21 @@ int main(int argc, char const *argv[])
     //Acoo.print();
     //Acoo.print();
     b = 1.*dx*dx;
+
     // Factorizacion LU
     //cout << endl << endl;
+    //x = 0;
+    //Acoo.print();
+    //lu.factorization(Acoo);
+    //lu.report();
+
+    // Factorizacion Cholesky
+    cout << endl << endl;
     x = 0;
     //Acoo.print();
-    lu.factorization(Acoo);
-    //Acoo.print();
+    chol.factorization(Acoo);
+    chol.report();
+
 	/*    JACOBI     */
 	/*
   	cout<< endl << endl;
