@@ -76,8 +76,9 @@ void Cholesky<T> :: factorization(T &A)
 	}
 	n = sqrt(ll.busca(nr,nr)-m);
 	ll.insert(nr,nr,n);
-	
+	//******************************************
 	// Verificamos el resultado
+	/*
 	for (int i = 0; i < 9; ++i)
 	{
 		for (int j = 0; j < 9; ++j)
@@ -86,12 +87,53 @@ void Cholesky<T> :: factorization(T &A)
 		}
 		std::cout<<std::endl;
 	}
+	*/
+	//*******************************************
 }
 // Obtiene la solucion al sistema Lineal
 template <class T>
 void Cholesky<T> :: solve(Vector &x, Vector &b)
 {
+// Variables Necesarias
+	int i = 0;
+	int j = 0;
+	// Numero de renglones de la matriz
+	int n = ll.gRow();
+	double t = 0.0;
+	double s = 0.0;
 
+	// Vector temporal y
+	Vector y(n);
+	// Comenzamos con el la sustitucion hacia adelante
+	t = b[0]/ll.busca(0,0); 
+	// Insertamos el primer valor calculado
+	y[0] = t;
+	// Aplicamos para los demas
+	for (int i = 0; i < n; ++i)
+	{
+		t = 0.0;
+		for (int ind = 0; ind < ll.revDiag(i); ++ind)
+		{
+			j = ll.regresa(i,ind);
+			if ( j >= i) continue;
+			t += ll.valor(i,ind)*y[j];
+		}
+		s = (b[i] - t)/ll.busca(n-1,n-1);
+		y[i] = s;
+	}
+	// Aplicamos la sustitucion hacia atras
+	t = y[n-1]/ll.busca(n-1,n-1);
+	x[n-1] = t;
+	for (int i = n-2; i >= 0; --i)
+	{
+		t = 0.0;
+		for (int j = i+1; j < n; ++j)
+		{
+			t += ll.busca(j,i)*x[j];
+		}
+		s = (y[i]-t)/ll.busca(i,i);
+		x[i] = s;
+	}
 }
 
 #endif // CHOLESKY_HPP

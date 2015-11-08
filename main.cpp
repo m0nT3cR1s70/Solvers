@@ -24,14 +24,14 @@ int main(int argc, char const *argv[])
   	GaussSeidel gs; 
   	CG cg;
   	BICGSTAB bstb;
-  	LU<Sparse> lu;
-  	Cholesky<Sparse> chol;
+  	LU<Band> lu;
+  	Cholesky<Band> chol;
 
   	Timer timer;                   //mide tiempo de ejecucion
 
   	//cout<< endl << "Tamanio de problema " << n << "x" <<n<<endl<<endl;
   	int l = 0;
-    Sparse Acoo(n,7,"dispersa");                 //matriz temporal en formato de coordenadas
+    Band Acoo(n,7,"dispersa");                 //matriz temporal en formato de coordenadas
     timer.tic(); 
     for(int j=1;j<ny;++j)
     {
@@ -65,21 +65,30 @@ int main(int argc, char const *argv[])
     b = 1.*dx*dx;
 
     // Factorizacion LU
-    //cout << endl << endl;
-    //x = 0;
-    //Acoo.print();
-    //lu.factorization(Acoo);
-    //lu.report();
+    cout << endl << endl;
+    x = 0;
+    lu.factorization(Acoo);
+    lu.solve(x,b);
+    x.saveData("flu.txt");
+    lu.report();
+    r = b-Acoo*x;                     //calcula el vector residual con la solucion x. 
+                                  //Operacion vector = vector - Matroz*vector
+  	cout << "#Error ||b-A*x||: " << r.norm() << endl;  //imprime la norma del vector residual
 
     // Factorizacion Cholesky
     cout << endl << endl;
     x = 0;
     //Acoo.print();
     chol.factorization(Acoo);
+    chol.solve(x,b);
+    x.saveData("chol.txt");
     chol.report();
+    r = b-Acoo*x;                     //calcula el vector residual con la solucion x. 
+                                  //Operacion vector = vector - Matroz*vector
+  	cout << "#Error ||b-A*x||: " << r.norm() << endl;  //imprime la norma del vector residual
 
 	/*    JACOBI     */
-	/*
+	
   	cout<< endl << endl;
   	x=0;                           //aproximacion inicial de la solucion
   	jac.solve(Acoo,x,b);              //resuelve el sistema Ax=b, guarda el resultado en x
@@ -88,9 +97,9 @@ int main(int argc, char const *argv[])
   	r = b-Acoo*x;                     //calcula el vector residual con la solucion x. 
                                   //Operacion vector = vector - Matroz*vector
   	cout << "#Error ||b-A*x||: " << r.norm() << endl;  //imprime la norma del vector residual
-	*/
+	
   	/*    Gauss Seidel     */
-  	/*
+  	
   	cout<< endl << endl;
   	x=0;
   	gs.solve(Acoo,x,b);
@@ -98,9 +107,9 @@ int main(int argc, char const *argv[])
   	x.saveData("gauss.txt");
   	r = b-Acoo*x;
   	cout << "#Error ||b-A*x||: " << r.norm() << endl;
-  	*/
+  	
 	//    Gradiente Conjugado 
-	/*  
+	
   	cout<< endl << endl;
   	x=0;
   	cg.solve(Acoo,x,b);
@@ -108,9 +117,9 @@ int main(int argc, char const *argv[])
   	r = b-Acoo*x;
   	x.saveData("cg.txt");
   	cout << "#Error ||b-A*x||: " << r.norm() << endl;
-  	*/
+  	
   	//   BICGSTAB  
-  	/*
+  	
   	cout<< endl << endl;
   	x=0;
   	bstb.solve(Acoo,x,b);
@@ -118,7 +127,7 @@ int main(int argc, char const *argv[])
   	r = b-Acoo*x;
   	x.saveData("bstb.txt");
   	cout << "#Error ||b-A*x||: " << r.norm() << endl;
-  	*/
+  	
 	/* code */
 	return 0;
 }

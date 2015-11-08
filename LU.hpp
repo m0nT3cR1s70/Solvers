@@ -61,6 +61,45 @@ void LU<T> :: factorization(T &A)
 template <class T>
 void LU<T> :: solve(Vector &x, Vector &b)
 {
+	// Variables Necesarias
+	int i = 0;
+	int j = 0;
+	// Numero de renglones de la matriz
+	int n = lu.gRow();
+	double t = 0.0;
+	double s = 0.0;
 
+	// Vector temporal y
+	Vector y(n);
+	// Comenzamos con el la sustitucion hacia adelante
+	t = b[0]/lu.busca(0,0); 
+	// Insertamos el primer valor calculado
+	y[0] = t;
+	// Aplicamos para los demas
+	for (int i = 0; i < n; ++i)
+	{
+		t = b[i];
+		for (int ind = 0; ind < lu.revDiag(i); ++ind)
+		{
+			j = lu.regresa(i,ind);
+			if ( j >= i) continue;
+			t -= lu.valor(i,ind)*y[j];
+		}
+		y[i] = t;
+	}
+	// Aplicamos la sustitucion hacia atras
+	t = y[n-1]/lu.busca(n-1,n-1);
+	x[n-1] = t;
+	for (int i = n-2; i >= 0; --i)
+	{
+		t = y[i];
+		for (int ind = 0; ind < lu.revDiag(i); ++ind)
+		{
+			j = lu.regresa(i,ind);
+			if (j<=i||j>(n-1)) continue;
+			t -= lu.valor(i,ind)*x[j];
+		}
+		x[i] = t/lu.busca(i,i);
+	}
 }
 #endif // LU_HPP
