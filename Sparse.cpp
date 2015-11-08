@@ -129,19 +129,14 @@ double Sparse :: busca(int i, int j)
 int Sparse :: revDiag(int i)
 {
 	// Variables necesarias
+	if (data[i] == nullptr) return 0;
 	int k = 0;
-	if (data[i] == nullptr) return k;
 	// Devuelve el largo de la banda
 	while(k < gBand()) {
 	    if (ind[i][k] == -1) break;
 	    k++;
 	}
 	return k;
-}
-// Prueba
-int Sparse :: regresa(int i, int j)
-{
-	return ind[i][j];
 }
 // Iteracion de Jacobi
 void Sparse :: iterJacobi(int i, Vector &x)
@@ -221,6 +216,29 @@ void Sparse :: print()
 		std::cout<<std::endl;
 	}
 
+}
+// Copiamos una matriz 
+void Sparse :: operator =(Sparse &A)
+{
+	// Orden de la matriz
+	int orden = A.gRow();
+	// Banda de la matriz
+	int banda = A.gBand();
+	// Asignamos el nuevo largo
+	sBox(orden);
+	// Largo de la banda
+	sBand(banda);
+	// Solicitamos la memoria suficiente
+	reserveMemory();
+	// Copiamos los elementos
+	for (int i = 0; i < gRow(); ++i)
+	{
+		for (int j = 0; j < gBand(); ++j)
+		{
+			data[i][j] = A.valor(i,j);
+			ind[i][j] = A.regresa(i,j);
+		}
+	}
 }
 // Liberamos la memoria solicitada
 void Sparse :: freeMemory()

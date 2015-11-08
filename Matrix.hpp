@@ -24,6 +24,11 @@ class Matrix
 		inline int gRow(){return row;};
 		inline int gCol(){return col;};
 		inline int gBand(){return band;};
+		// Funciones para modificar los parametros de la matriz
+		inline void sRow(int i){row=i;};
+		inline void sCol(int i){col=i;};
+		inline void sBand(int i){band=i;};
+		inline void sBox(int i){row=col=i;};
 		// Indica el nombre de la matrix
 		inline void gName(){std::cout<<name<<std::endl;};
 		// -----------------------------------------------------------

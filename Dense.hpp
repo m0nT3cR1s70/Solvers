@@ -15,8 +15,10 @@ class Dense : public Matrix
 		void reserveMemory();
 		void freeMemory();
 	public:	
+		// Constructor vacio de la clase
+		Dense(){};
 		// Constructor de la clase
-		Dense(int orden,int pband, std::string pname): Matrix(orden, orden, pband, pname){reserveMemory();zeros();};
+		Dense(int orden, std::string pname): Matrix(orden, orden, orden, pname){reserveMemory();zeros();};
 		// Almacena un valor dentro de la clase
 		void insert(int i, int j, double val);
 		// Inicializamos en 0 y en -1000

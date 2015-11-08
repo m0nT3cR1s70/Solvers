@@ -18,6 +18,8 @@ class Sparse : public Matrix
 		void reserveMemory();
 		void freeMemory();
 	public:
+		// Constructor Vacio
+		Sparse(){};
 		// Constructor de la clase
 		Sparse(int orden,int pband, std::string pname): Matrix(orden, orden, pband, pname){reserveMemory();zeros();};
 		// Inserta un valor no cero en el arreglo
@@ -35,11 +37,15 @@ class Sparse : public Matrix
 		// Devuelve la diagonal
 		int revDiag(int i);
 		// Prueba
-		int regresa(int i, int l);
+		int regresa(int i, int l){return ind[i][l];};
+		// Prueba 2
+		inline double valor(int i, int ind){return data[i][ind];};
 		// Iteracion de Jacobi
 		void iterJacobi(int i, Vector &x);
 		// Iteracion de Gauss-Seidel
 		void iterGaussSeidel(int i, Vector &x, Vector const &b);
+		// Almacena una matriz en otra con este formato
+		void operator =(Sparse &A);
 		// Destructor de la clase
 		~Sparse(){freeMemory();};
 };

@@ -167,6 +167,7 @@ void Band :: print()
 	{
 		std::cout<<ind[i]<<", ";
 	}
+	std::cout<<std::endl;
 }
 // Imprime en forma de Matriz
 void Band :: printM(int n)
@@ -237,6 +238,33 @@ void Band :: iterGaussSeidel(int i, Vector &x, Vector const &b)
 		}
 	}
 	x[i] = (b[i]-suma)/busca(i,i);
+}
+// Copiamos una matriz 
+void Band :: operator =(Band &A)
+{
+	// Orden de la matriz
+	int orden = A.gRow();
+	// Banda de la matriz
+	int banda = A.gBand();
+	// Asignamos el nuevo largo
+	sBox(orden);
+	// Largo de la banda
+	sBand(banda);
+	// Solicitamos la memoria suficiente
+	reserveMemory();
+	// Copiamos los elementos
+	for (int i = 0; i < gRow(); ++i)
+	{
+		for (int j = 0; j < gBand(); ++j)
+		{
+			data[i][j] = A.gElement(i,j);
+		}
+	}
+	// Copiamos los indices
+	for (int i = 0; i < gBand(); ++i)
+	{
+		ind[i] = A.gInd(i);
+	}
 }
 // Liberamos utilizada memoria
 void Band :: freeMemory() 
