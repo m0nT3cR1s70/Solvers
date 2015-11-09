@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	int nx=4;
+	int nx=11;
   	int ny=nx;
   	double dx = 1./nx;
   	double dy = 1./ny;
@@ -29,9 +29,9 @@ int main(int argc, char const *argv[])
 
   	Timer timer;                   //mide tiempo de ejecucion
 
-  	//cout<< endl << "Tamanio de problema " << n << "x" <<n<<endl<<endl;
+  	cout<< endl << "Tamanio de problema " << n << "x" <<n<<endl<<endl;
   	int l = 0;
-    Band Acoo(n,7,"dispersa");                 //matriz temporal en formato de coordenadas
+    Band Acoo(n,n,"dispersa");                 //matriz temporal en formato de coordenadas
     timer.tic(); 
     for(int j=1;j<ny;++j)
     {
@@ -51,8 +51,8 @@ int main(int argc, char const *argv[])
       }
     }
     timer.toc();                 //termina de medir tiempo
-    /*std::cout << "Tiempo de llenado de matriz   CDS: " << timer.etime() << " ms" << std::endl;
-    for (int i = 0; i < n; ++i)
+    std::cout << "Tiempo de llenado de matriz   CDS: " << timer.etime() << " ms" << std::endl;
+    /*for (int i = 0; i < n; ++i)
     {
     	for (int j = 0; j < n; ++j)
     	{

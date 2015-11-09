@@ -36,6 +36,8 @@ void Cholesky<T> :: factorization(T &A)
 	// Almacenamos la matriz A en ll
 	ll = A;
 	int nr = ll.gRow()-1;
+	// Medimos el tiempo
+	timer.tic();
 	// Obtenemos el primer elemento factorizado
 	m = sqrt(ll.busca(0,0));
 	// Almacenamos dicho elemento
@@ -76,6 +78,10 @@ void Cholesky<T> :: factorization(T &A)
 	}
 	n = sqrt(ll.busca(nr,nr)-m);
 	ll.insert(nr,nr,n);
+	// Finalizamos con el tiempo de ejecuccion
+	timer.toc();
+	// Almacenamos el tiempo
+	ctime(timer.etime());
 	//******************************************
 	// Verificamos el resultado
 	/*
